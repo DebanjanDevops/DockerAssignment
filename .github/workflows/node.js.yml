@@ -40,15 +40,14 @@ jobs:
           ${{ runner.os }}-node-
 
     # Install dependencies (with conditional check for yarn or npm)
-    - name: Install dependencies
-      run: |
-        if [ -e yarn.lock ]; then
-          yarn install --frozen-lockfile
-        elif [ -e package-lock.json ]; then
-          npm ci
-        else
-          npm install
-        fi
+- name: Install dependencies
+  run: |
+    if [ -e package-lock.json ]; then
+      npm ci
+    else
+      npm install
+    fi
+
 
     # Build the project (if applicable)
     - run: npm run build --if-present
