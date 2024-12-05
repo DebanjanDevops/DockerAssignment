@@ -27,7 +27,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: '**/package-lock.json'
+        cache-dependency-path: 'backend/package-lock.json'  # Specify the correct path
 
     # Cache npm dependencies
     - name: Cache npm dependencies
@@ -39,20 +39,17 @@ jobs:
           ${{ runner.os }}-node-${{ matrix.node-version }}-
           ${{ runner.os }}-node-
 
-    # Install dependencies (with conditional check for yarn or npm)
+    # Install dependencies
     - name: Install dependencies
-    run: |
-      if [ -e backend/package-lock.json ]; then
-      npm ci --prefix backend
-      else
-      npm install --prefix backend
-      fi
-      working-directory: ./backend  # Update this with the correct subdirectory if applicable
+      run: |
+        if [ -e backend/package-lock.json ]; then
+          npm ci --prefix backend
+        else
+          npm install --prefix backend
+        fi
 
-    # Build the project (if applicable)
-    - run: npm run build --if-present
-      working-directory: ./backend  # Update this as well if your build script is in the subfolder
+    # Build the project
+    - run: npm run build --if-present --prefix backend
 
     # Run tests
-    - run: npm test
-      working-directory: ./backend  # Same here if tests are in a specific subfolder
+    - run: npm test --prefix backend
