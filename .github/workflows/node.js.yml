@@ -41,12 +41,12 @@ jobs:
 
     # Install dependencies (with conditional check for yarn or npm)
     - name: Install dependencies
-      run: |
-        if [ -e package-lock.json ]; then
-          npm ci
-        else
-          npm install
-        fi
+    run: |
+      if [ -e backend/package-lock.json ]; then
+      npm ci --prefix backend
+      else
+      npm install --prefix backend
+      fi
       working-directory: ./backend  # Update this with the correct subdirectory if applicable
 
     # Build the project (if applicable)
