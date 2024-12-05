@@ -28,7 +28,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-        cache-dependency-path: MERN-docker-compose/mern/backend/package-lock.json
+        cache-dependency-path: '**/package-lock.json'
 
     - name: Cache npm dependencies
       uses: actions/cache@v3
