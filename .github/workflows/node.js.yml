@@ -39,15 +39,14 @@ jobs:
           ${{ runner.os }}-node-${{ matrix.node-version }}-
           ${{ runner.os }}-node-
 
-    # Install dependencies
-    - name: Install dependencies
-      run: |
-        if [ -e backend/package-lock.json ]; then
-          npm ci --prefix backend
-        else
-          npm install --prefix backend
-        fi
-
+    - name: Check for package-lock.json in nested backend folders
+        run:|
+          if find . -path "*/backend/package-lock.json" -type f -print -quit | grep -q .; then
+            echo ci --prefix backend
+          else
+            echo install --prefix backend
+          fi
+          
     # Build the project
     - run: npm run build --if-present --prefix backend
 
